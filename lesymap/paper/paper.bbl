@@ -1,0 +1,107 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{SHAP_corr}
+Aas, K., Jullum, M., Løland, A.: Explaining individual predictions when
+  features are dependent: More accurate approximations to shapley values (2019)
+
+\bibitem{vlbm}
+Bates, E., Wilson, S., Saygin, A.P., Dick, F., Sereno, M., Knight, R.,
+  Dronkers, N.: Voxel-based lesion–symptom mapping. Nature neuroscience
+  \textbf{6},  448--50 (06 2003). \doi{10.1038/nn1050}
+
+\bibitem{Breiman2001}
+Breiman, L.: Random forests. Machine Learning  \textbf{45}(1),  5--32 (2001)
+
+\bibitem{darya}
+Chyzhyk, D., Varoquaux, G., Thirion, B., Milham, M.: Controlling a confound in
+  predictive models with a test set minimizing its effect. pp.~1--4 (06 2018).
+  \doi{10.1109/PRNI.2018.8423961}
+
+\bibitem{damour}
+D'Amour, A.: Comment: Reflections on the deconfounder (2019),
+  \url{https://arxiv.org/abs/1910.08042}
+
+\bibitem{dorie2017}
+Dorie, V., Hill, J., Shalit, U., Scott, M., Cervone, D.: Automated versus
+  do-it-yourself methods for causal inference: Lessons learned from a data
+  analysis competition. Statist. Sci.  \textbf{34}(1),  43--68 (02 2019).
+  \doi{10.1214/18-STS667}, \url{https://doi.org/10.1214/18-STS667}
+
+\bibitem{interaction_lesion_behaviour}
+Godefroy, O., Duhamel, A., Leclerc, X., Saint~Michel, T., H?non, H., Leys, D.:
+  {{B}rain-behaviour relationships. {S}ome models and related statistical
+  procedures for the study of brain-damaged patients}. Brain  \textbf{121 ( Pt
+  8)},  1545--1556 (Aug 1998)
+
+\bibitem{BART_hill}
+Hill, J.: Bayesian nonparametric modeling for causal inference. Journal of
+  Computational and Graphical Statistics  \textbf{20},  217--240 (03 2011).
+  \doi{10.1198/jcgs.2010.08162}
+
+\bibitem{doubly_robust}
+Kang, J.D.Y., Schafer, J.L.: Demystifying double robustness: A comparison of
+  alternative strategies for estimating a population mean from incomplete data.
+  Statistical Science  \textbf{22}(4),  523–539 (Nov 2007)
+
+\bibitem{CEVAE}
+Louizos, C., Shalit, U., Mooij, J.M., Sontag, D., Zemel, R., Welling, M.:
+  Causal effect inference with deep latent-variable models. In: Guyon, I.,
+  Luxburg, U.V., Bengio, S., Wallach, H., Fergus, R., Vishwanathan, S.,
+  Garnett, R. (eds.) Advances in Neural Information Processing Systems 30, pp.
+  6446--6456. Curran Associates, Inc. (2017),
+  \url{http://papers.nips.cc/paper/7223-causal-effect-inference-with-deep-latent-variable-models.pdf}
+
+\bibitem{SHAP}
+Lundberg, S.M., Lee, S.I.: A unified approach to interpreting model
+  predictions. In: Guyon, I., Luxburg, U.V., Bengio, S., Wallach, H., Fergus,
+  R., Vishwanathan, S., Garnett, R. (eds.) Advances in Neural Information
+  Processing Systems 30, pp. 4765--4774. Curran Associates, Inc. (2017),
+  \url{http://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf}
+
+\bibitem{topographical_bias}
+Mah, Y.H., Husain, M., Rees, G., Nachev, P.: {{H}uman brain lesion-deficit
+  inference remapped}. Brain  \textbf{137}(Pt 9),  2522--2531 (Sep 2014)
+
+\bibitem{pearl}
+Pearl, J.: Causality: Models, Reasoning and Inference. Cambridge University
+  Press, USA, 2nd edn. (2009)
+
+\bibitem{price_stroke}
+Price, C.J., Hope, T.M., Seghier, M.L.: {{T}en problems and solutions when
+  predicting individual outcome from lesion site after stroke}. Neuroimage
+  \textbf{145}(Pt B),  200--208 (01 2017)
+
+\bibitem{lesymap}
+Pustina, D., Avants, B., Faseyitan, O.K., Medaglia, J.D., Coslett, H.B.:
+  {{I}mproved accuracy of lesion to symptom mapping with multivariate sparse
+  canonical correlations}. Neuropsychologia  \textbf{115},  154--166 (07 2018)
+
+\bibitem{mlbm}
+Smith, D.V., Clithero, J.A., Rorden, C., Karnath, H.O.: Decoding the anatomical
+  network of spatial attention. Proceedings of the National Academy of Sciences
+   \textbf{110}(4),  1518--1523 (2013)
+
+\bibitem{orig_paper_lesions}
+Sperber, C.: {{R}ethinking causality and data complexity in brain
+  lesion-behaviour inference and its implications for lesion-behaviour
+  modelling}. Cortex  \textbf{126},  49--62 (05 2020)
+
+\bibitem{deconfounder}
+Wang, Y., Blei, D.M.: The blessings of multiple causes. Journal of the American
+  Statistical Association  \textbf{114}(528),  1574--1596 (2019)
+
+\bibitem{dlasso}
+Zhang, C.H., Zhang, S.: Confidence intervals for low-dimensional parameters in
+  high-dimensional linear models. Journal of the Royal Statistical Society:
+  Series B (Statistical Methodology)  \textbf{76} (10 2011).
+  \doi{10.1111/rssb.12026}
+
+\bibitem{svr}
+Zhang, Y., Kimberg, D., Coslett, H., Schwartz, M., Wang, Z.: Multivariate
+  lesion-symptom mapping using support vector regression. Human Brain Mapping
+  \textbf{35} (07 2014). \doi{10.1002/hbm.22590}
+
+\end{thebibliography}

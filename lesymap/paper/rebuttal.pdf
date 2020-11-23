@@ -1,0 +1,282 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://ftp.cs.ucla.edu/pub/stat_ser/r370.pdf)
+>> /Border [ 0 0 0 ] /Rect [ 66.02291 189.0236 257.8029 201.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+5 0 obj
+<<
+/Annots [ 4 0 R ] /Contents 9 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/Outlines 10 0 R /PageLabels 11 0 R /PageMode /UseNone /Pages 8 0 R /Type /Catalog
+>>
+endobj
+7 0 obj
+<<
+/Author () /CreationDate (D:20200525174128+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20200525174128+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title () /Trapped /False
+>>
+endobj
+8 0 obj
+<<
+/Count 1 /Kids [ 5 0 R ] /Type /Pages
+>>
+endobj
+9 0 obj
+<<
+/Length 6999
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 753.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (We thank the reviewers for their comments and discuss the points that have been found problematic.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 711.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .483488 Tw (In terms of communication, the difficulty of the paper is to disclose a null result, ie the absence of gain of) Tj T* 0 Tw 2.08284 Tw (causal methods in a the context of multivariate models of lesion-behavior mappings. Null results are) Tj T* 0 Tw (harder to establish !) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 693.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (the experimental results did not fully support the conclusion) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 687.0236 cm
+Q
+q
+1 0 0 1 62.69291 687.0236 cm
+Q
+q
+1 0 0 1 62.69291 663.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 9 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 2.466412 Tw (The results clearly show that in average \(Fig. 3\), multivariate models such as random Forests) Tj T* 0 Tw (outperform alternatives, in particular linear or causal models.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 657.0236 cm
+Q
+q
+1 0 0 1 62.69291 609.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 33 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL 1.051654 Tw (What is clearly visible in all figures \(paper and suppmat\), and is the message of the paper, is that) Tj T* 0 Tw .129982 Tw (model assumptions \(amount and nature of non-linearity in the outcome generation\) matter more than) Tj T* 0 Tw 1.839985 Tw (the causal nature of the model. We agree thus with R3 that the opposition between causal and) Tj T* 0 Tw (non-causal methods is not essential.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 603.0236 cm
+Q
+q
+1 0 0 1 62.69291 555.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 33 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 38 Tm .100574 Tw 12 TL /F1 10 Tf 0 0 0 rg (It is also important to note that random variations obscure the results in some cases \(supp mat Figs\),) Tj T* 0 Tw .371318 Tw (so that averaging across target regions is necessary to conclude. We thus agree that ) Tj /F2 10 Tf (causal model) Tj T* 0 Tw .156654 Tw (performs better in some cases and worse in others) Tj /F1 10 Tf (, but there is no strong support for their use in) Tj T* 0 Tw (the context of lesion-behavior mapping.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 555.0236 cm
+Q
+q
+1 0 0 1 62.69291 513.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .701163 Tw (We will clarify the point in the paper: namely that i\) important fluctuations exist, and that our conclusions) Tj T* 0 Tw .15311 Tw (are drawn on average across challenging cases ii\) that the nature and amount of non-linearity are actually) Tj T* 0 Tw (more important than causal vs non-causal methodology.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 495.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (lack of a clearly defined modeling goal) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 417.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 62 Tm /F1 10 Tf 12 TL .829986 Tw (We wrote this paper because we noticed that causality has been wrongly invoked as the method to use) Tj T* 0 Tw .868651 Tw (for brain-lesion mapping. This would be the case if i\) some confounding were present in lesion/behavior) Tj T* 0 Tw .145868 Tw (relationship, and ii\) this confounding were captured by other brain regions. We show \(lemma 1\) that this is) Tj T* 0 Tw 1.843555 Tw (not consistent with the classical formulation of brain-lesion mapping. As predicted by theory, we then) Tj T* 0 Tw 1.47311 Tw (observe that a standard multivariate model is able to cope with the system identification, and does so) Tj T* 0 Tw (more accurately in average than a causal model.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 375.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .298735 Tw (This leads to the conclusion that "causal models" should not be invoked as the solution to lesion/behavior) Tj T* 0 Tw .84686 Tw (mapping, but only in cases where observed confounders are present ; such cases do not correspond to) Tj T* 0 Tw (lesion-behavior mapping models used so far \(see discussion\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 357.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (potentially biased data generation process) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 315.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .646651 Tw (Reviewer R3 does not explain what he/she means with bias? To avoid self-fulfilling prophecies, we have) Tj T* 0 Tw .350651 Tw (decided to systematically rely on the existing simulations schemes proposed in the domain from ref[12] in) Tj T* 0 Tw (the paper, as we think that this is a reasonable standpoint.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 297.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (unclear causal modeling approach) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 243.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL 1.532651 Tw (The use of observational causality is meant to address the question of confounding. Hence the whole) Tj T* 0 Tw 2.794983 Tw (paper is aimed at analyzing the potential impact on confounders in the problem of lesion-behavior) Tj T* 0 Tw 2.237984 Tw (mapping. We have not restated the usual assumptions \(such as causal faithfulness\) for the sake of) Tj T* 0 Tw (brevity, but these are implicit, as in most studies. We will add that.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 189.0236 cm
+q
+BT 1 0 0 1 0 38 Tm .294104 Tw 12 TL /F1 10 Tf 0 0 0 rg (We use Pearl's formalism to describe the causal structure but turn to causal treatment effect theory to get) Tj T* 0 Tw 1.407126 Tw (tractable and statistically sound estimates. The two models are logically equivalent, as stated by Pearl) Tj T* 0 Tw 6.374147 Tw (himself in section 4.5 of "The Causal Foundations of Structural Equation Modeling", 2012) Tj T* 0 Tw (\() Tj 0 0 .501961 rg (https://ftp.cs.ucla.edu/pub/stat_ser/r370.pdf) Tj 0 0 0 rg (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 147.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL 1.645366 Tw (Regarding causal methods We used BART and doubly robust estimators. For mildly high dimensional) Tj T* 0 Tw .047045 Tw (problems BART is the reference method for this type of problem, as it has outperformed alternatives in the) Tj T* 0 Tw (ACIC 2016 and 2019 competitions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 129.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Interpretation of Table 1 \(R3\)) Tj /F1 10 Tf (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 99.02362 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.19686 Tw (Table 1 provides a result on Recovery \(accuracy in identification\), which is the objective of the present) Tj T* 0 Tw (work. It is not related to explained variance.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+10 0 obj
+<<
+/Count 0 /Type /Outlines
+>>
+endobj
+11 0 obj
+<<
+/Nums [ 0 12 0 R ]
+>>
+endobj
+12 0 obj
+<<
+/S /D /St 1
+>>
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000073 00000 n 
+0000000114 00000 n 
+0000000221 00000 n 
+0000000333 00000 n 
+0000000530 00000 n 
+0000000751 00000 n 
+0000000855 00000 n 
+0000001112 00000 n 
+0000001171 00000 n 
+0000008221 00000 n 
+0000008268 00000 n 
+0000008309 00000 n 
+trailer
+<<
+/ID 
+[<6f4ca774da2787a204cc5030eb02ec9a><6f4ca774da2787a204cc5030eb02ec9a>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 7 0 R
+/Root 6 0 R
+/Size 13
+>>
+startxref
+8343
+%%EOF

@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: splncs04.bst
+Database file #1: lesymap.bib
+You're missing a field name---line 130 of file lesymap.bib
+ : 
+ : %  doi       = {10.1080/01621459.2019.1686987},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 181 of file lesymap.bib
+ : 
+ : %  doi       = {10.1073/pnas.1210126110},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 246 of file lesymap.bib
+ : 
+ : %  doi       = {10.1214/07-sts227},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 271 of file lesymap.bib
+ : 
+ : %doi={10.1023/A:1010933404324},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty booktitle in darya
+You've used 20 entries,
+            2850 wiz_defined-function locations,
+            743 strings with 8448 characters,
+and the built_in function-call counts, 12915 in all, are:
+= -- 1054
+> -- 409
+< -- 29
++ -- 166
+- -- 144
+* -- 877
+:= -- 1602
+add.period$ -- 26
+call.type$ -- 20
+change.case$ -- 129
+chr.to.int$ -- 0
+cite$ -- 21
+duplicate$ -- 1149
+empty$ -- 1131
+format.name$ -- 161
+if$ -- 2827
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 226
+newline$ -- 66
+num.names$ -- 44
+pop$ -- 375
+preamble$ -- 1
+purify$ -- 105
+quote$ -- 0
+skip$ -- 359
+stack$ -- 0
+substring$ -- 813
+swap$ -- 714
+text.length$ -- 29
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 78
+warning$ -- 1
+while$ -- 101
+width$ -- 22
+write$ -- 216
+(There were 4 error messages)

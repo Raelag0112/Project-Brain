@@ -1,0 +1,18 @@
+Lesion-behaviour brain mapping is a popular way to investigate the functions of various brain areas, based on the association between lesion images obtained from MRI scans and behavioural scores. However, it is well known that univariate methods are subject to lesion-anatomical bias when used in lesion-behaviour mapping, where statistical correlations between the different brain regions due to the vascularisation of the brain introduce spurious topographical bias. Recently, it has been claimed that multivariate methods also fall prey to lesion-anatomical bias, and that a move towards a causal approach to lesion-behaviour mapping is necessary to eliminate lesion-anatomical bias. In our paper, we reframe the lesion-behaviour brain mapping problem using classical causal inference tools such as causal graphical models, and show that, in the absence of additional clinical data and if only one region has an effect on the behavioural scores, there exists no observed confounders, and thus there should exist multivariate methods able to deal with lesion-anatomical bias. We support our claim with a set of simulated experiments : using a publicly available lesion imaging dataset, we simulate behavioural scores according to several modes of lesion-behaviour associations documented in the literature, and use both causal and multivariate methods to identify the regions of interest. While we find that some multivariate methods such as support vector machines succumb to lesion-anatomical bias, which corroborates previous findings, we also empirically find that some multivariate methods do not. Indeed, using the permutation-based feature importance of a random forest model to identify the region of interest performed best in our simulations. We then discuss pertinent ways to apply causal inference to lesion-behaviour brain mapping, by using datasets with extended clinical data, or by using recent developments in the causal inference literature regarding unobserved confounders.
+
+
+Bertrand abridged version : 
+
+Multivariate inference is sufficent for lesion-behavior mapping
+
+Lesion-behaviour mapping aims at predicting individual behavioral deficits, given a certain pattern of brain lesions.   It brings also fundamental insights into the understanding  of brain functional organization, as lesions can be understood as disruptive interventions on normal brain function. We focus here on the case of stroke. The most standard approach to lesion-behavior mapping is mass-univariate analysis, but it is inaccurate due to vascularisation-induced correlations between the different brain regions.  Recently, it has been reported that multivariate analysis methods are subject to such lesion-anatomical bias, and that a move towards a causal approach is necessary to eliminate this bias. In this paper, we reframe the lesion-behaviour brain mapping problem using classical causal inference tools, and show that under mild hypotheses, suitable  multivariate methods are sufficient to address lesion-anatomical bias. We support this claim with a set of simulated experiments using a publicly available lesion imaging dataset, on which we show that adequate multivariate models provide state-of-the art results.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+Statement of impact : 
+
+Traditional univariate methods are inacurate for lesion-behaviour
+mapping. It is however unclear whether multivariate methods are
+sufficient for this purpose.  Relying on causal inference
+theory, we show that multivariate inference done with proper methods
+achieves state-of-the art results.

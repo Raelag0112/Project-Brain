@@ -1,0 +1,547 @@
+\documentclass[runningheads]{llncs}
+\usepackage[utf8]{inputenc} 
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[export]{adjustbox}
+\usepackage{mathtools}
+\usepackage[numbers]{natbib}
+\usepackage{centernot}
+\usepackage{floatrow}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage{dsfont}
+\usepackage{subfig}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\W}{\mathbf{W}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bSigma}{\mathbf{\Sigma}}
+\newcommand{\cond}{\: | \:}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+
+\title{Multivariate analysis is sufficient for lesion-behaviour mapping}
+\date{}
+\author{Lucas Martin$^\star$, Julie Josse$^\dagger$, Bertrand Thirion$^\star$}
+\institute{
+$\star$ Inria, CEA, Université Paris Saclay,
+$\dagger$ Inria}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+
+  Lesion-behaviour mapping aims at predicting individual
+  behavioural deficits, given a certain pattern of brain lesions.
+  %
+  It also brings fundamental insights on brain
+  organization, as lesions can be understood as interventions on
+  normal brain function.
+  %
+  We focus here on the case of stroke. The most standard approach to
+  lesion-behaviour mapping is mass-univariate analysis, but it is
+  inaccurate due to correlations between the different brain regions
+  induced by vascularisation.
+  %
+  Recently, it has been claimed that multivariate methods are also
+  subject to lesion-anatomical bias, and that a move towards a
+  causal approach is necessary to eliminate that bias.
+  %
+  In this paper, we reframe the lesion-behaviour brain mapping problem
+  using classical causal inference tools.
+  %
+  We show that, in the absence of additional clinical data and if
+  only one region has an effect on the behavioural scores, suitable
+  multivariate methods are sufficient to address lesion-anatomical
+  bias.
+  %
+  This is a commonly encountered situation when working with public
+  datasets, which very often lack general health data.
+  %
+  We support our claim with a set of simulated experiments using a
+  publicly available lesion imaging dataset, on which we show that
+  adequate multivariate models provide state-of-the art results.
+  \keywords{Lesion-behaviour mapping \and Multivariate methods \and Causal inference} 
+\end{abstract}
+\section{Introduction}
+%
+Lesion-behaviour mapping aims at predicting individual behavioural
+impacts of brain lesions, such as those induced by stroke.
+%
+Based on large-scale datasets including brain images and corresponding
+deficits, this mapping can be used to assess the critical impact of brain
+territories on behaviour.
+%
+Yet, this remains a complex endeavour \cite{price_stroke}.
+%
+Traditionally, univariate methods, such as voxel-based lesion-symptom
+mapping, have been used for this purpose \cite{vlbm}.
+%
+However, such methods are subject to the topographical bias induced by brain vascularization, i.e. brain regions that are irrigated by the same artery often die together
+in the case of stroke.
+%
+In turn, this induces a correlation between the lesion status of
+different brain regions, which can lead to spurious effects being
+detected \cite{topographical_bias}.
+
+\smallskip
+
+Later on, multivariate methods that incorporate the lesion status of every brain region in a single model have been introduced \cite{mlbm}.
+%
+While these methods were thought to be able to overcome topographical
+bias, this notion has recently been challenged
+\cite{orig_paper_lesions}, based on numerical experiments involving
+support vector regression.
+%
+It has also been argued that only causal inference methods would be able to
+overcome topographical bias.
+
+In this work, we tackle the question of which multivariate methods are
+suited for this type of inference.
+%
+First, we notice that inference based on multivariate models is hard
+due to the high dimensionality of the problem, and the covariance
+structure between different brain regions \cite{price_stroke}.
+%
+Specific methods, such as desparsified Lasso \cite{dlasso}, are required for accurate inference.
+%
+Second, we point out the possible inadequacy of linear models, given that
+deficits can result from a complex combination of lesions \cite{interaction_lesion_behaviour}.
+
+
+We then discuss in detail the expected benefits of causal inference
+tools: those are limited unless additional clinical
+data are available together with the lesion data. 
+%
+Numerical experiments are performed by simulating behavioral deficits
+based on a publicly available lesion database \cite{lesymap}.
+%
+These support our claims, and also replicate the
+results reported in \cite{orig_paper_lesions}.
+
+
+\section{Multivariate methods considered}
+
+Let us consider the case where the only data available to us are
+segmented lesion maps, typically reduced to lesion occurrence in a
+predefined set of regions of interest (ROIs) of a given brain atlas,
+together with behavioural scores highlighting some deficits, but no
+other clinical data.
+%
+This is a commonly encountered situation when working with public
+datasets.
+
+The outcome is a given behavioural score $\y$, observed in $n$
+subjects, and the potential causes are the lesion status of the
+different brain regions $(\X_j)_{j=1..p}$.
+%
+Multivariate statistical inference consists in finding which variables
+are predictive of the deficit, given the status of the other regions.
+
+\smallskip
+
+If we assume a linear model, the reference method is the desparsified
+LASSO \cite{dlasso}, namely a de-biased version of the lasso, in which
+the model weights $ \bbeta_{DLASSO} (\lambda)$ are computed from the
+regular Lasso weights $\bbeta_{LASSO} (\lambda)$ as follows :
+\begin{equation*}
+\bbeta_{DLASSO} (\lambda) = \bbeta_{LASSO} (\lambda) + \frac{1}{n}\widehat{\bSigma^{-1}} \X^T (\y - \X \bbeta_{LASSO}(\lambda))
+\end{equation*}
+where $\lambda$ is the regularization parameter of the LASSO, and $\widehat{\bSigma^{-1}}$ is an estimate of the inverse covariance matrix of the model.
+%
+Explicit formulae for the covariance matrix of $\bbeta_{DLASSO}
+(\lambda)$, allowing the computation of reliable confidence intervals.
+
+\smallskip
+
+The desparsified LASSO is well-suited to the problem of
+lesion-behaviour mapping, because it gives reliable confidence intervals on model weights. Moreover, it takes into account the
+correlations between brain regions, while allowing inference in the case where
+$p \geq n$. 
+
+We also consider non-linear multivariate models, such as random
+forests with permutation feature importance \cite{Breiman2001}, and
+random forests with approximated Shapley values \cite{SHAP}.
+%
+Support vector regression is investigated as well, in order to relate
+our findings to those of \cite{orig_paper_lesions}, and as a baseline
+commonly used in the literature \cite{svr}.
+
+\section{Causal analysis of the problem}
+
+
+%
+Causal analysis imposes to first split the problem into several
+cases, depending on whether only a single, or multiple ROIs affect the
+behavioural scores.
+
+
+\smallskip
+
+%In a causal inference view, the outcome is the behavioural score, and the (potential) causes are the lesion status of the various brain regions.
+%In a multivariate inference done with machine learning view, the behavioural scores are the outcomes, and the various brain regions are features of the model.
+
+\paragraph{Confounding bias and backdoor paths}
+
+Confounding variables are variables that have a causal effect on potential causes and outcome.
+%
+Those can spuriously enhance the performance of predictive machine learning algorithms, but hamper their usefulness when trying to infer brain-behaviour (or in our case, lesion-behaviour) relationships \cite{darya}.
+%
+The type of bias induced by these confounding variables is called \textit{confounding bias}.
+
+\smallskip
+
+Confounding bias occurs whenever there exists an unblocked \textit{backdoor path} between the cause and the outcome.
+%
+A backdoor path is a path in the undirected causal graph that does not include the direct edge from the cause to the outcome.
+%
+See the graph in Fig. \ref{fig_roi_causal}(a) for a token example.
+%
+Backdoor paths are blocked by colliders, that are vertices with two incoming edges : $\rightarrow$Z $\leftarrow$, or by conditioning on vertices that are not colliders.
+
+Classical causal inference methods aim at eliminating confounding bias by conditioning on an appropriate set of observed variables.
+%
+For a more in-depth presentation of this topic, the reader can consult section 3.3 of \cite{pearl}.
+%
+In particular, these methods make the assumption that no unobserved confounding variable exists.
+%
+Therefore, in the absence of observed confounders, classical causal inference methods should not have any advantage over appropriate multivariate methods.
+
+\paragraph{Single ROI case}
+In Fig. \ref{fig_roi_causal}(b), the middle causal graph links the
+observed or known variables in a simplified situation with only two
+brain regions denoted A and B.
+%
+As brain vascularization induces correlations between regions, we
+choose to represent it in the causal graph.
+%
+As can be seen from the middle graph, there are no observed
+confounding variables in this case, because there are no backdoor
+paths between the behavioural scores and region A.
+%
+Causal inference methods should not yield improved performance over
+proper multivariate inference methods.
+
+\begin{figure}[!t]%
+    \centering
+    \subfloat[Illustration of a backdoor path]
+    {{\includegraphics[scale=0.4]{../figures/backdoor_path} }}%
+    \qquad
+    \qquad
+    \subfloat[Scenario with a single ROI]{{\includegraphics[width=2cm]{../figures/single_roi} }}%
+    \qquad
+    \qquad
+    \subfloat[Scenario with multiple ROI.]{{\includegraphics[width=2cm]{../figures/multiple_roi} }}%
+    \caption{ The sample causal graph on the left illustrates the concept of a backdoor path. X is the cause, Y the outcome, and Z the confounding variable. The middle causal graph represents the known variables in the single ROI case. The right causal graph represents the multiple ROI case. A and B are two different brain regions irrigated by the same artery. Backdoor paths are highlighted in red.}%
+    \label{fig_roi_causal}%
+\end{figure}
+
+%The remaining source of bias which could hamper multivariate methods stems from the correlation between the lesion status of the different brain regions
+
+
+\paragraph{Multiple ROI case}
+In the case where multiple brain regions linked by vasculature have a
+causal effect on behavioural scores, a backdoor path opens up as shown
+on the right causal graph in Fig. \ref{fig_roi_causal}(c), hence
+causal inference methods may be necessary.
+%
+ However, the magnitude of the confounding bias induced by this
+ backdoor path is unknown, and may be small.
+%
+In turn, this may confer limited performance improvements with respect to
+causal inference methods.
+
+\section{Experiments}
+\label{experiments}
+
+It is important to notice that there is no ground truth available for
+such problems, hence we have to rely on simulations to control the
+behavior of inference tools.
+
+\paragraph{Dataset used}
+
+Similar to the experiments done in \cite{orig_paper_lesions}, we used lesion maps from the publicly available LESYMAP dataset (\url{https://github.com/dorianps/LESYMAP}) \cite{lesymap}, which includes left hemisphere stroke lesions from 131 patients.
+%
+We partition the brain volumes into 403 regions using the parcellation atlas provided with the LESYMAP dataset.
+
+\paragraph{Generative model of simulated outcomes}
+
+We simulate behavioural scores using the status of several regions pairs of the provided atlas. We considered regions to be lesioned if more than 60 \% of their voxels were lesioned.
+The figures in this paper showcase the results obtained using regions 100 and 101. The same experiments were performed on several other region pairs (\{100, 101\}, \{108, 114\}, \{109, 114\}, \{79, 108\}, \{80, 108\}), and similar results were obtained. These are available in the supplementary materials.
+%
+We partition the brain volumes into 403 regions using the parcellation atlas provided with the LESYMAP dataset. 
+%
+Because the LESYMAP dataset only contains left hemisphere stroke lesions, of the 403 previously mentioned regions, only 179 present a lesion in at least one patient. We keep these regions and discard the rest.
+%
+The region pairs with the highest number of subjects showing a lesion in both regions were picked. The rationale behind this is to pick the regions most susceptible to topographical bias.
+%
+Indeed, in the 131 subjects, 49 had a lesion in region 100, 45 a
+lesion in region 101, and 41 a lesion in both. Figure
+\ref{fig_ROIs_on_brain} shows the location of these regions in the
+brain.
+
+\begin{figure}[b]
+\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
+{\caption{Location in the brain of the two ROIs used in our simulations. Region 101 is colored red and region 100 is colored blue.}\label{fig_ROIs_on_brain}}
+{\includegraphics[width=5cm]{../figures/glass_brain_rois}}
+\end{figure}
+
+\smallskip
+
+We then simulate behavioural scores using a simple linear model with
+additive Gaussian noise.
+
+\begin{equation*}
+\y^i = \phi(\X^i) + \varepsilon^i
+\end{equation*}
+where $\y^i$ is the behavioural score for subject $i$, $\X^i$
+represents the lesion status across regions for subject $i$, $\phi$ is
+a function mapping this lesion status to deficits, and $\varepsilon^i
+\sim \mathcal{N}(0, \sigma)$.
+
+%
+In all our experiments, $\sigma = 1$.
+%
+All random variables $\varepsilon^i$ are i.i.d.
+%
+We use four scenarii of simulation for behavioural scores, that are based upon real lesion-behaviour interactions documented in the literature \cite{interaction_lesion_behaviour}
+\begin{enumerate}
+\item Single ROI scenario : 
+%only region 101 affects the behavioural scores. 
+$\phi(\X) = \X_j$, the $j^{th}$ brain region lesion status (e.g., $j$ = 101), i.e. $\phi(\X) = \X_j = 1$ if region $j$ is lesioned, $0$ otherwise.
+
+\item OR scenario : 
+%Both region 101 and 100 affect the behavioural scores, and only one of them needs to be lesioned for the behavioural scores to be affected.
+%$\beta_i = 1$ if region 100 or region 101 is lesioned, $\beta_i = 0$ otherwise.
+$\phi(\X) = \text{OR}(\X_j, \X_k)$, with e.g.  j=100, k=101.
+
+
+\item AND scenario : 
+%Both region 101 and 100 affect the behavioural scores, and both of them need to be lesioned for the behavioural scores to be affected. 
+%$\beta_i = 1$ if region 100 and region 101 are lesioned, $\beta_i = 0$ otherwise.
+$\phi(\X) = \text{AND}(\X_j, \X_k)$, with e.g.  j=100, k=101.
+
+
+\item Sum scenario : 
+%Both region 101 and 100 affect the behavioural scores, and their effect on the behavioural scores stack. 
+%$\beta_i = 2$ if both regions are lesioned, $\beta_i = 1$ if only one region is lesioned, and $\beta_i = 0$ otherwise.
+$\phi(\X) =  \X_j + \X_k$, with e.g.  j=100, k=101.
+
+\end{enumerate}
+
+\paragraph{Models}
+
+We compare two causal models to various multivariate models. 
+For the first causal model, we use Bayesian Additive Regression Trees (abbreviated BART) \cite{BART_hill}, which is a state-of-the-art model for the estimation of average treatment effects \cite{dorie2017}. We fit one BART model per atlas region, using the lesion status of that region as the treatment variable, and the lesion status of other regions as potential confounding covariates. We then take the estimated average treatment effect output by each BART model to be the effect on the behavioural scores  of lesion presence in each region. We use the \texttt{bartCause} \texttt{R} package (\url{https://rdrr.io/github/vdorie/bartCause/}) for our experiments. 
+
+The second causal model is a doubly robust AIPW model (abbreviated DR) \cite{doubly_robust}, where the two response surfaces were modeled by random forests. Following the same procedure as BART, we fit one model per region, and get the average treatment effect as output from the DR model.
+
+\smallskip
+
+The multivariate models we use are :
+\begin{enumerate}
+\item Support vector regression (SVR), using the \texttt{scikit-learn} package
+\item Desparsified LASSO \cite{dlasso} (DLASSO), using a custom \texttt{Python} implementation
+\item Random forests with permutation feature importance (RF), using the \texttt{scikit-learn} package
+\item Random forests with Shapley additive explanations \cite{SHAP} (abbreviated RF+SHAP), using the \texttt{SHAP} package (\url{https://github.com/slundberg/shap})
+
+\end{enumerate}
+
+\subsubsection*{Assessing model performance}
+Each model gives a score per ROI corresponding to its effect on the
+behavioural scores.
+%
+The scores are the model weights for SVR and DLASSO, average treatment
+effects for BART and DR, feature importance for RF, and approximated Shapley
+values for RF+SHAP.
+%
+For the models that give standard deviation estimates on their score
+(BART and DLASSO), we compute Z-scores using these values, and
+calculate precision-recall curves from the Z-scores.
+
+For the other models, we robustly fit a Gaussian distribution to their
+scores (denoted ($\w_j$, $j=1\hdots p$)), by taking $m=\text{median}(\w_j)$
+as a mean parameter, and $\sigma^2 \propto \text{mad}(\w_j)^2)$ (where
+mad() stands for mean absolute deviation) as variance parameter.
+%
+We then compute the following statistic $Z_j = \frac{\w_j-m}{\sigma}$ ,
+which we call pseudo-Z-scores, and calculate precision-recall curves
+from the pseudo Z-scores.
+%
+
+Finally, we take the area under each precision-recall curve (AUC) as a final measure of model performance.
+%
+The hyperparameters of each model are optimized using grid search and cross-validation, and the hyperparameters which yield the best predictive performance are picked.
+
+This procedure is repeated over 50 bootstrap runs to obtain figure
+\ref{results_snr=1}. We also provide results averaged over all considered region pairs in Table \ref{mean_table}.
+
+\begin{figure}[!b] 
+\raggedleft
+\includegraphics[width=\textwidth]{../figures/figure_rois=100_101}
+\caption{Area under the precision-recall curve for our 6 models under the four simulation scenarii. Signal to noise ratio is equal to 1. Results are averaged over 50 bootstrap runs.}
+\label{results_snr=1}
+\end{figure}
+
+\begin{table}
+\caption{Mean AUC for each model under each scenario, averaged across all region pairs. The winning model in each scenario is highlighted in bold.}
+\begin{tabular}{l c c c c c c}
+& BART & DR & DLASSO & SVR & RF & RF+SHAP\\
+\hline
+Single ROI & 0.69 & 0.75 & 0.81 & 0.46 & \textbf{0.81} & 0.28 \\
+\hline
+OR & 0.50 & \textbf{0.53} & 0.50 & 0.34 & 0.53 & 0.17\\
+\hline
+AND & 0.42 & 0.37 & 0.34 & 0.36 & \textbf{0.45} & 0.24 \\
+\hline
+SUM & 0.83 & 0.80 & \textbf{0.86} & 0.60 & 0.85 & 0.26 \\
+
+\end{tabular}
+\label{mean_table}
+\end{table}
+
+
+\paragraph{Results}
+The RF model performs very well across all scenarii, being either the best or very close to the best.
+%
+In each scenario, we see that SVR performs worse than the other models.
+%
+This is consistent with the findings of \citep{orig_paper_lesions},
+and suggests that support vector regression is not a good model for
+inference.
+%
+We also see that RF+SHAP perform poorly across all scenarii.
+%
+The SHAP approximation method makes the hypothesis that model features
+are independent, and it is well known that it does not perform
+adequately when this hypothesis is violated \cite{SHAP_corr}.
+
+In our case, the model features are the brain regions, which are
+heavily correlated because of topographical bias.
+%
+Therefore the poor performance of RF+SHAP is unsurprising.
+%
+It is worth noting that other approximations for Shapley values exist,
+but are prohibitively computationally expensive when considering the
+size of our problem.
+
+While the DLASSO model performs very well in the single ROI and SUM
+scenarii, it performed significantly worse in the AND and OR scenarii.
+%
+This is because DLASSO is a linear model, and fails to accurately
+represent the non-linear interactions between lesions and behavioural
+scores in the AND and OR scenarii.
+
+
+For the region pair $\{100, 101\}$ displayed in Fig.
+\ref{results_snr=1}, causal models underperform in the AND scenario
+when compared to RF. However, this is not necessarily the case across
+all region pairs, as shown in the supplementary materials (see region
+pair $\{108, 114\}$).
+%
+Both causal models (DR and BART) posit an underlying additive model,
+where $\y = f(\X) + \tau \W +\varepsilon$ where $\tau$ is the causal
+effect and $\W$ the treatment variable (here, the lesion status of the
+region investigated for causal effect).
+%
+However, in the AND and OR scenario, the underlying causal model is
+effectively $y = f(\X) + \tau \phi (\W, \W') + \varepsilon$, where
+$(\W, \W')$ represents treatments on two regions and $\phi$ is not
+additive, which hampers causal models.
+
+
+Additionally, the strength of the confounding introduced by the
+presence of multiple ROIs may vary between region pairs and scenarii,
+and may compensate more or less well for this impairment.
+%
+Overall, we notice that causal models were not always the
+best-performing ones.
+%
+These numerical experiments suggest that multivariate models are still
+sufficient for lesion-behaviour mapping in the proposed framework.
+
+\section{Discussion}
+
+\subsection{Outlook}
+
+Through a simple causal analysis of the lesion-behaviour mapping
+problem, we show that in the case where a single region affects
+behavioural scores, and no other clinical data is observed, there are
+no observed confounding variables.
+%
+Therefore, traditional causal inference methods that assume no
+unobserved confounders should not perform better than multivariate
+methods that have good inference capabilities (random forests, desparsified LASSO).
+%
+We illustrate this through our experiments based on documented
+lesion-behaviour interactions.
+%
+although confounding variables exist in the case where multiple
+regions affect behavioural scores, we also show empirically that
+appropriate multivariate methods still perform adequately.
+%
+%We also give a simple, theoretical explanation of these phenomenon in
+%the case of a linear model.
+%
+% \smallskip
+% 
+% Overall, our work shows that when no additional clinical data is
+%  observed, multivariate methods are sufficient for lesion-behaviour
+% mapping, although not all are equally good in the face of
+% topographical bias.
+%%%  Already said
+As the absence of clinical data is almost always the case when working
+with public brain lesion datasets, appropriate multivariate
+methods are good enough in the cases created through standard simulations.
+%
+The generalization to more complex scenarii, where non-linear
+combinations of several regions would cause the deficits, is an
+important future direction.
+
+\subsection{Future work}
+\paragraph{Causal inference with unobserved confounders}
+Among recent developments in the causal inference literature, methods that deal with unobserved confounders and do away with the assumption of strong ignorability have been proposed.
+%
+Examples include \cite{CEVAE} and \cite{deconfounder}.
+%
+Although some of these methods are still the subject of debate
+\cite{damour}, we believe that they could be an interesting basis for a
+causal approach to lesion-behaviour mapping when no other clinical
+data are observed, as is the case in publicly available datasets.
+
+\paragraph{Causal inference with additional clinical data}
+In the case where additional clinical data are available, additional
+confounding variables such as age might be observed.
+%
+In that case, we conjecture that traditional causal inference
+methods that make the assumption of strong ignorability would perform
+better than multivariate methods, as they could effectively eliminate
+confounding bias.
+
+\clearpage
+
+\bibliographystyle{splncs04}
+\bibliography{lesymap.bib}
+
+\section*{Supplementary materials}
+\input{appendix.tex}
+
+\end{document}

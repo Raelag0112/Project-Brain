@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc} 
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[export]{adjustbox}
+\usepackage{mathtools}
+\usepackage[numbers]{natbib}
+\usepackage{centernot}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage{dsfont}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cond}{\: | \:}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\title{ MICCAI paper outline}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Problem outline}
+Quickly reintroduce the problem and objective of lesion-behaviour mapping : finding which brain regions play a role in certain types of behavior through measured scores from patients with lesions.
+Quickly explain topographical bias, explain that it causes univariate methods to fail
+
+\section{Current misconceptions}
+Cite the original paper which concludes that multivariate methods (i.e. ML-based) fail due to topographical bias, and that only causal methods can overcome this bias. "Original paper" refers to \url{https://www.biorxiv.org/content/10.1101/2019.12.17.878355v1}
+
+\textbf{XXX I would not call it a misconception at that point, since it is unclear yet in what sense this is a misconception. Rather emphasize the problem as an identification/inference one.}
+
+
+\section{Causal structure of the problem}
+
+Give a simple graph outlining the structure of the problem (see figure \ref{fig1} for a sample)
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{/home/lucmarti/Documents/slides_with_pics/lesion_cause_corr}
+\caption{sample figure \textbf{XXX Reogranize the figure to save space. Always write the caption has fully as possible, as it is the ideal test to ensure tha the figure is good and useful.} }
+\label{fig1}
+\end{figure}
+, explain that there is no confounding bias, because there is no backdoor path between the causes and the outcome, and so causal methods are not necessary. Mention that this is only true with this amount of observed variables, and that additional observations (age, etc) could be confounders that would warrant the use of causal inference. It's also worth mentioning that there IS a backdoor path when two or more regions influence the behaviour scores.
+
+
+Q : Not sure if I should mention causal inference methods for hidden confounders anyways. They seem to still be pretty experimental and controversial (like Blei's paper). Perhaps I could make a passing mention to instrumental variables.
+\textbf{XXX indeed. Don't go too much into detail: readers will not understand. Don't give the impression that you are uniquely struggling with the 'casuality' concept, and instead outline the positive solution you're proposing.}
+
+\section{Experiments}
+
+\subsection{Original paper experiments}
+Quickly describe the experiments of the original paper. Say that we believe the SVM model (as opposed to multivariate methods in general) to be susceptible to topographical bias
+
+\subsection{Our experiments}
+Describe the dataset used : Lesymap, the same one used in the original paper. \\
+Describe the way we generate behavioral scores : single ROI, association of two ROIs with OR / AND / + associations, cite \url{https://europepmc.org/article/med/9712015} to show that the choice of simulated outcomes is grounded in the lesion literature.\\
+
+Show there is topographical bias involved with the ROIs picked : A glass brain plot would be most elegant, but I'm not sure how to make one that looks good.
+
+Describe the models we use : BART (as our "causal model" representative), Desparsified Lasso, SVR (because it was in the original paper), and Random Forest + feature importance (to see if the good performance of BART on AND/OR scenarios can be credited to the tree structure of its underlying model).\\
+
+Describe the way we assert model performance in ROI recovery : we compute Z-scores for the weights / feature importance / ATEs of each model (so each brain region gets a Z-score), and then use these Z-scores to compute precision/recall curves. We then take the AUC of these curves as the final indicator of model performance. 
+
+Show our results (see  figure \ref{fig2} for a sample)
+
+\section{Explanation in the case of a linear model}
+(Thanks to Julie for the idea) 
+Take the simple case of a linear causal model, and show that thanks to strong ignorability, this causal model amounts to doing regression conditional on the regions not considered as treatment (ex : investigating the effect of ROI $n$, conditioning of the brain regions that are not $n$.)
+
+Though I see a few unclear areas in this reasoning, and I will probably need to discuss it further with Julie when writing that part.
+
+\textbf{I think that this should go earlier, probably before you address non-linear interaction mdels}
+
+\section{Conclusion}
+
+Conclude that our experiments illustrate the fact that topographical bias does not require causal inference methods to be overcome.
+\textbf{XXX Conclude instead positively that well-suited mutlivariate inference procedures are sufficient to perform the inference in that case.
+Insist that the most critical factor that comes from your experiments is the non-linearity of the relationhsip. Conclude that RF feature importance should be taken as the reference approach.}
+
+Explain the possibility of going causal by measuring added variables which could act as confounders (age, etc), but are unfortunately not found in public brain lesion datasets, or by using algorithms that model latent unobserved confounders.
+
+\begin{figure}[!h]
+\raggedleft
+\includegraphics[scale=0.2]{../figures/test_figure_SNR=2}
+\caption{Sample figure yet again, will need to adjust plot width and add a bar for Shapley values. \textbf{XXX: Again, try to spell the main message from the figure. This is an excellent test to assess the usefulness of the figure.}}
+\label{fig2}
+\end{figure}
+\end{document}
