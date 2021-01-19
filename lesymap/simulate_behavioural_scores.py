@@ -81,3 +81,25 @@ def simulate_behavioural_scores_SUM(X, rois, amplitudes, noise_level=0.5):
         behavioural_scores += amplitudes[i] * X[roi]
 
     return behavioural_scores.to_numpy()
+
+
+def simulate_behavioural_scores_XOR(X, rois, amplitude=-1, noise_level=0.5):
+    '''
+    Simulate behavioural scores in the case where multiple ROIs affect the
+    scores, such that behavioural scores are impacted only if exactly one of the
+    ROIs are lesioned. This is equivalent to having an XOR operator between ROIs.
+    '''
+
+    n_subjects = X.shape[0]
+    noise_vector = rnd.normal(size=n_subjects, scale=noise_level)
+    # Making sure rois is a list for pandas indexing
+    rois = list(rois)
+
+    concerned_regions = X[rois]
+
+    # Take the max-min of lesioned voxels which acts like a soft XOR operator
+    max_min_lesion = concerned_regions.max(axis=1) - concerned_regions.min(axis=1)
+
+    behavioural_scores = amplitude * max_min_lesion + noise_vector
+
+    return behavioural_scores.to_numpy()
