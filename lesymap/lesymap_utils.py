@@ -32,7 +32,7 @@ def find_lesioned_regions(lesion_map, atlas_img=None):
     # LESYMAP dataset
     if atlas_img is None:
 
-        path_to_parcellation = "/storage/tompouce/lucmarti/lesymap/extdata/template/Parcellation_403areas.nii.gz"
+        path_to_parcellation = "template/Parcellation_403areas.nii.gz"
         atlas_img = nilearn.image.load_img(path_to_parcellation)
 
     # Mask atlas image and lesion image
@@ -105,7 +105,7 @@ def build_lesion_dataset(paths_to_lesion_files=None, column_names=None,
     # Default lesion file path
     if paths_to_lesion_files is None:
         subject_index = [str(i).zfill(3) for i in range(1, 132)]
-        paths_to_lesion_files = ["/storage/tompouce/lucmarti/lesymap/extdata/lesions/Subject_{}.nii.gz".format(s)
+        paths_to_lesion_files = ["lesions/Subject_{}.nii.gz".format(s)
                                  for s in subject_index]
 
     # Each column corresponds to an atlas region,

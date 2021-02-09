@@ -2,7 +2,7 @@ import os
 import numpy as np
 import numpy.random as rnd
 import pandas as pd
-import shap
+#import shap
 from joblib import Parallel, delayed
 from doubly_robust import doubly_robust
 from sklearn.decomposition import PCA
@@ -10,6 +10,7 @@ from simulate_behavioural_scores import simulate_behavioural_scores_single
 from simulate_behavioural_scores import simulate_behavioural_scores_AND
 from simulate_behavioural_scores import simulate_behavioural_scores_OR
 from simulate_behavioural_scores import simulate_behavioural_scores_SUM
+from simulate_behavioural_scores import simulate_behavioural_scores_XOR
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 import desparsified_lasso as dsl
@@ -98,7 +99,7 @@ def fit_one_region(X, y, cname, model='BART', lesion_threshold=0.6):
         return NotImplementedError('model must be either "BART" or "DR"')
 
 
-def get_coefs(X, y, model, lesion_threshold=0.6, n_jobs=30):
+def get_coefs(X, y, model, cnames, lesion_threshold=0.6, n_jobs=30):
     ''' Gets coefs for each model.
 
     Inputs
@@ -270,7 +271,7 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
     scenario : str
        Lesion-behaviour interaction simulation scenario
        under which the models were fitted.
-       Valid values are "single", "OR", "AND", "SUM"
+       Valid values are "single", "OR", "AND", "SUM", "XOR"
     rois : list of length 2
         ROI pair which were used to simulate behavioural scores.
 
@@ -284,7 +285,8 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
     switcher_rois = {'single': [rois[1]],
                      'OR': rois,
                      'AND': rois,
-                     'SUM': rois}
+                     'SUM': rois,
+                     'XOR': rois}
     rois_to_detect = switcher_rois.get(scenario)
 
     # Construct target vector
@@ -405,7 +407,8 @@ def bootstrap_AUCs(X, model, SNR, n_bs=50, bs_size=150, rois=[100, 101],
     switcher = {'single': simulate_behavioural_scores_single,
                 'OR': simulate_behavioural_scores_OR,
                 'AND': simulate_behavioural_scores_AND,
-                'SUM': simulate_behavioural_scores_SUM}
+                'SUM': simulate_behavioural_scores_SUM,
+                'XOR': simulate_behavioural_scores_XOR}
     # Grab the right simulation function
     simulation_function = switcher.get(scenario)
     noise_level = 1 / SNR
@@ -429,7 +432,7 @@ def bootstrap_AUCs(X, model, SNR, n_bs=50, bs_size=150, rois=[100, 101],
                 if scenario == 'single':
                     y_bs = simulation_function(X_bs, roi=rois[1], amplitude=1,
                                                noise_level=noise_level)
-                elif scenario == 'OR' or scenario == 'AND':
+                elif scenario == 'OR' or scenario == 'AND' or scenario =='XOR':
                     y_bs = simulation_function(X_bs, rois=rois, amplitude=1,
                                                noise_level=noise_level)
                 elif scenario == 'SUM':
@@ -486,6 +489,7 @@ def bootstrap_AUCs(X, model, SNR, n_bs=50, bs_size=150, rois=[100, 101],
             X=a,
             y=b,
             model=model,
+            cnames=cnames,
             lesion_threshold=lesion_threshold,
             n_jobs=n_jobs)
             for a, b in zip(X_bootstrapped_array, y_bootstrapped_array)
