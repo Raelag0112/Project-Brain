@@ -436,7 +436,7 @@ def bootstrap_AUCs(X, model, SNR, n_bs=50, bs_size=150, rois=[100, 101],
                     y_bs = simulation_function(X_bs, rois=rois, amplitude=1,
                                                noise_level=noise_level)
                 elif scenario == 'SUM':
-                    y_bs = simulation_function(X_bs, rois=rois, amplitudes=[1, 1],
+                    y_bs = simulation_function(X_bs, rois=rois, amplitudes=[1 for i in rois],
                                                noise_level=noise_level)
                 else:
                     raise ValueError('Invalid scenario choice')
