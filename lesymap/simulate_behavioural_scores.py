@@ -98,7 +98,7 @@ def simulate_behavioural_scores_XOR(X, rois, amplitude=-1, noise_level=0.5):
     concerned_regions = X[rois]
 
     # Take the max-min of lesioned voxels which acts like a soft XOR operator
-    max_min_lesion = concerned_regions.max(axis=1) - concerned_regions.min(axis=1)
+    max_min_lesion = concerned_regions.max(axis=1)-concerned_regions.min(axis=1)
 
     behavioural_scores = amplitude * max_min_lesion + noise_vector
 
