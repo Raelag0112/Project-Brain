@@ -355,7 +355,7 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
         return False
 
 
-def bootstrap_AUCs(X, model, SNR, n_bs=50, bs_size=150, rois=[100, 101],
+def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
                    min_cond_size=4, scenario='single', lesion_threshold=0.6,
                    n_jobs=30):
     ''' Computes AUCs through n_bs bootstrap runs. This is the function you want to

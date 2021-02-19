@@ -1,13 +1,19 @@
-%load_ext autoreload
-%autoreload 2
 from lesymap_utils import *
 from lesymap_experiments import *
+import sys
 
 
-X = build_lesion_dataset()
 
-X_culled = cull_dataset(X, threshold=True)
+def AUC(model="SVR", n_bs=5, rois=[100, 101], scenario="AND"):
+    
+    X_culled = pd.read_excel("X_culled.xlsx")
+    
+    area1 = bootstrap_AUCs(X_culled, model=model, n_bs=n_bs, rois=rois, scenario=scenario)
+    print(area1)
+    print(np.mean(area1))
+    
 
-area1 = bootstrap_AUCs(X_culled, method='RF', 1, n_bs=5, scenario='AND', n_jobs=30)
-print(area1)
-print(np.mean(area1))
+    
+    
+if __name__ == '__main__':
+    AUC(*sys.argv[1:])
