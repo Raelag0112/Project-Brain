@@ -334,6 +334,7 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
     bs_sample_is_valid : bool
         Whether the bootstrap sample passed as input is valid
         for inference.'''
+    
     lesioned_0 = X_bs[rois[0]] == 1
     lesioned_1 = X_bs[rois[1]] == 1
     not_lesioned_0 = X_bs[rois[0]] == 0
