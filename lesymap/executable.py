@@ -13,7 +13,5 @@ def AUC(model="SVR", n_bs=5, rois=[100, 101], scenario="AND"):
     print(np.mean(area1))
     
 
-    
-    
 if __name__ == '__main__':
-    AUC(*sys.argv[1:])
+    AUC(sys.argv[1], int(sys.argv[2]), list(sys.argv[3].split(",")), sys.argv[4])
