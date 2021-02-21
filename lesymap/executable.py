@@ -3,6 +3,8 @@ from lesymap_experiments import *
 import sys
 
 
+'''Exemple de syntaxe : !python executable.py "SVR" 5 100,101 "AND"    '''
+
 
 def AUC(model="SVR", n_bs=5, rois=[100, 101], scenario="AND"):
     
@@ -11,7 +13,10 @@ def AUC(model="SVR", n_bs=5, rois=[100, 101], scenario="AND"):
     area1 = bootstrap_AUCs(X_culled, model=model, n_bs=n_bs, rois=rois, scenario=scenario)
     print(area1)
     print(np.mean(area1))
-    
+  
+
+
 
 if __name__ == '__main__':
-    AUC(sys.argv[1], int(sys.argv[2]), list(sys.argv[3].split(",")), sys.argv[4])
+    
+    AUC(sys.argv[1], int(sys.argv[2]), list(map(int, sys.argv[3].split(","))), sys.argv[4])
