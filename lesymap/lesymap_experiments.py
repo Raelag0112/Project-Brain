@@ -2,7 +2,7 @@ import os
 import numpy as np
 import numpy.random as rnd
 import pandas as pd
-#import shap
+import shap
 from joblib import Parallel, delayed
 from doubly_robust import doubly_robust
 from sklearn.decomposition import PCA
