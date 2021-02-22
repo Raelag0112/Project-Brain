@@ -272,8 +272,8 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
        Lesion-behaviour interaction simulation scenario
        under which the models were fitted.
        Valid values are "single", "OR", "AND", "SUM", "XOR"
-    rois : list of length 2
-        ROI pair which were used to simulate behavioural scores.
+    rois : list of length n
+        ROIs which were used to simulate behavioural scores.
 
     Outputs
     -------
@@ -282,7 +282,7 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
         from the Zscores.'''
 
     # Get the ROIs to detect according to the scenario
-    switcher_rois = {'single': [rois[1]],
+    switcher_rois = {'single': [rois[0]],
                      'OR': rois,
                      'AND': rois,
                      'SUM': rois,
@@ -320,8 +320,8 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
         Contains the lesion status of the different
         brain regions from the lesion map in the bootstrap
         sample to check.
-    rois : list of length 2
-        ROI pair which were used to simulate behavioural scores.
+    rois : list of length n
+        ROIs which were used to simulate behavioural scores.
     min_cond_size : int
         The minimum number of samples for each case among :
         lesions in neither ROIs, lesion in ROI 1 but not ROI 2,
@@ -334,28 +334,30 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
     bs_sample_is_valid : bool
         Whether the bootstrap sample passed as input is valid
         for inference.'''
+    if (len(rois) == 2):
+        lesioned_0 = X_bs[rois[0]] == 1
+        lesioned_1 = X_bs[rois[1]] == 1 
+        not_lesioned_0 = X_bs[rois[0]] == 0
+        not_lesioned_1 = X_bs[rois[1]] == 0
+
+        num_both_rois = len(X_bs[lesioned_0 & lesioned_1])
+        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1])
+        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1])
+        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1])
+
+        useless_regions = (X_bs == 0).all()
+
+        if (num_both_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and               num_one_roi_1 >= min_cond_size and num_no_roi >= min_cond_size and               len(X_bs.columns[useless_regions]) == 0):
+
+            return True
+        else:
+            return False
     
-    lesioned_0 = X_bs[rois[0]] == 1
-    lesioned_1 = X_bs[rois[1]] == 1
-    not_lesioned_0 = X_bs[rois[0]] == 0
-    not_lesioned_1 = X_bs[rois[1]] == 0
-
-    num_both_rois = len(X_bs[lesioned_0 & lesioned_1])
-    num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1])
-    num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1])
-    num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1])
-
-    useless_regions = (X_bs == 0).all()
-
-    if (num_both_rois >= min_cond_size and num_one_roi_0 >= min_cond_size
-        and num_one_roi_1 >= min_cond_size and num_no_roi >= min_cond_size
-            and len(X_bs.columns[useless_regions]) == 0):
-
-        return True
     else:
-        return False
+        return True
 
 
+    
 def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
                    min_cond_size=4, scenario='single', lesion_threshold=0.6,
                    n_jobs=30):
@@ -375,8 +377,8 @@ def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
         Number of bootstrap runs to perform
     bs_size : int
         Size of each bootstrap sample.
-    rois : list of length 2
-        ROI pair which to use when simulating behavioural scores.
+    rois : list of length n
+        ROIs which to use when simulating behavioural scores.
     min_cond_size : int
         Used to check for bootstrap sample validity.
         The minimum number of samples for each case among :
@@ -431,7 +433,7 @@ def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
             if bs_sample_is_valid:
                 # Proceed with simulating bootstrap outcomes
                 if scenario == 'single':
-                    y_bs = simulation_function(X_bs, roi=rois[1], amplitude=1,
+                    y_bs = simulation_function(X_bs, roi=rois[0], amplitude=1,
                                                noise_level=noise_level)
                 elif scenario == 'OR' or scenario == 'AND' or scenario =='XOR':
                     y_bs = simulation_function(X_bs, rois=rois, amplitude=1,
