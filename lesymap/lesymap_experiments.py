@@ -358,7 +358,53 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
         else:
             return False
     
+    elif (len(rois) == 3):
+        lesioned_0 = X_bs[rois[0]] == 1
+        lesioned_1 = X_bs[rois[1]] == 1 
+        lesioned_2 = X_bs[rois[2]] == 1 
+        not_lesioned_0 = X_bs[rois[0]] == 0
+        not_lesioned_1 = X_bs[rois[1]] == 0
+        not_lesioned_2 = X_bs[rois[2]] == 0
+        
+        num_all_rois = len(X_bs[lesioned_0 & lesioned_1 & lesioned_2])
+        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1 & not_lesioned_2])
+        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1 & not_lesioned_2])
+        num_one_roi_2 = len(X_bs[not_lesioned_0 & not_lesioned_1 & lesioned_2])
+        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2])
+        
+        useless_regions = (X_bs == 0).all()
+        
+        if (num_all_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and num_one_roi_1 >= min_cond_size and num_one_roi_2 >= min_cond_size and num_no_roi >= min_cond_size and len(X_bs.columns[useless_regions]) == 0):
+            return True
+        else:
+            return False
+    
+    elif (len(rois) == 4):
+        lesioned_0 = X_bs[rois[0]] == 1
+        lesioned_1 = X_bs[rois[1]] == 1 
+        lesioned_2 = X_bs[rois[2]] == 1 
+        lesioned_3 = X_bs[rois[3]] == 1 
+        not_lesioned_0 = X_bs[rois[0]] == 0
+        not_lesioned_1 = X_bs[rois[1]] == 0
+        not_lesioned_2 = X_bs[rois[2]] == 0
+        not_lesioned_3 = X_bs[rois[3]] == 0
+        
+        num_all_rois = len(X_bs[lesioned_0 & lesioned_1 & lesioned_2 & lesioned_3])
+        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1 & not_lesioned_2 & not_lesioned_3])
+        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1 & not_lesioned_2 & not_lesioned_3])
+        num_one_roi_2 = len(X_bs[not_lesioned_0 & not_lesioned_1 & lesioned_2 & not_lesioned_3])
+        num_one_roi_3 = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2 & lesioned_3])
+        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2 & not_lesioned_3])
+        
+        useless_regions = (X_bs == 0).all()
+        
+        if (num_all_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and num_one_roi_1 >= min_cond_size and num_one_roi_2 >= min_cond_size and num_one_roi_3 >= min_cond_size and num_no_roi >= min_cond_size and len(X_bs.columns[useless_regions]) == 0):
+            return True
+        else:
+            return False
+    
     else:
+        print("uncheked for 5 or more ROIs")
         return True
 
 
