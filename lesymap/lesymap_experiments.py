@@ -11,7 +11,10 @@ from simulate_behavioural_scores import simulate_behavioural_scores_AND
 from simulate_behavioural_scores import simulate_behavioural_scores_OR
 from simulate_behavioural_scores import simulate_behavioural_scores_SUM
 from simulate_behavioural_scores import simulate_behavioural_scores_XOR
+from simulate_behavioural_scores import simulate_behavioural_scores_ANDORAND
+from simulate_behavioural_scores import simulate_behavioural_scores_ORANDOR
 from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import plot_precision_recall_curve
 from sklearn.metrics import auc
 import desparsified_lasso as dsl
 from sklearn.model_selection import GridSearchCV
@@ -286,7 +289,9 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
                      'OR': rois,
                      'AND': rois,
                      'SUM': rois,
-                     'XOR': rois}
+                     'XOR': rois,
+                     'ANDORAND': rois,
+                     'ORANDOR' : rois}
     rois_to_detect = switcher_rois.get(scenario)
 
     # Construct target vector
@@ -300,7 +305,7 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
 
     # Convert zscores back to numpy array
     zscores = zscores.to_numpy()
-
+    
     precision, recall, _ = precision_recall_curve(y_true=y_true,
                                                   probas_pred=zscores)
     AUC = auc(recall, precision)
@@ -411,7 +416,9 @@ def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
                 'OR': simulate_behavioural_scores_OR,
                 'AND': simulate_behavioural_scores_AND,
                 'SUM': simulate_behavioural_scores_SUM,
-                'XOR': simulate_behavioural_scores_XOR}
+                'XOR': simulate_behavioural_scores_XOR,
+                'ORANDOR': simulate_behavioural_scores_ORANDOR,
+                'ANDORAND': simulate_behavioural_scores_ANDORAND}
     # Grab the right simulation function
     simulation_function = switcher.get(scenario)
     noise_level = 1 / SNR
@@ -435,7 +442,7 @@ def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
                 if scenario == 'single':
                     y_bs = simulation_function(X_bs, roi=rois[0], amplitude=1,
                                                noise_level=noise_level)
-                elif scenario == 'OR' or scenario == 'AND' or scenario =='XOR':
+                elif scenario == 'OR' or scenario == 'AND' or scenario =='XOR' or scenario=='ANDORAND' or scenario=='ORANDOR':
                     y_bs = simulation_function(X_bs, rois=rois, amplitude=1,
                                                noise_level=noise_level)
                 elif scenario == 'SUM':
@@ -451,6 +458,7 @@ def bootstrap_AUCs(X, model, SNR=1, n_bs=50, bs_size=150, rois=[100, 101],
     # Now that we have a valid bootstrap sample, calculate AUCs
     # And use joblib to go parallelize
     # Make a separate case for BART and DR to avoid worker oversubscription
+    
     if model == 'BART':
         results_array = []
         # Use a for loop instead of parallelization
