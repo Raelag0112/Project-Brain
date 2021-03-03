@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import numpy.random as rnd
+import matplotlib.pyplot as plt
 import pandas as pd
 import shap
 from joblib import Parallel, delayed
@@ -308,6 +309,10 @@ def make_AUCs(X, zscores, scenario='single', rois=[100, 101]):
     
     precision, recall, _ = precision_recall_curve(y_true=y_true,
                                                   probas_pred=zscores)
+    
+    plt.figure()
+    plt.step(recall, precision, where='post')
+    
     AUC = auc(recall, precision)
 
     return AUC
