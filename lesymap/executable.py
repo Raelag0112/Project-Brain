@@ -10,7 +10,7 @@ def AUC(model="SVR", n_bs=5, rois=[100, 101], scenario="AND"):
     
     X_culled = pd.read_excel("X_culled.xlsx")
     
-    area1 = bootstrap_AUCs(X_culled, model=model, n_bs=n_bs, rois=rois, scenario=scenario)
+    area1 = bootstrap_AUCs(X_culled, model=model, 10, n_bs=n_bs, rois=rois, scenario=scenario)
     print(area1)
     print(np.mean(area1))
   
