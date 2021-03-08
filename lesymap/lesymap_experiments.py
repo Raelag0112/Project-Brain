@@ -504,7 +504,7 @@ def bootstrap_AUCs(X, model, SNR=10, n_bs=50, bs_size=150, rois=[100, 101],
 
                 X_bootstrapped_array[j] = X_bs
                 y_bootstrapped_array[j] = y_bs
-                print('%s th bootstrap sample selected' % j)
+                #print('%s th bootstrap sample selected' % j)
 
     # Now that we have a valid bootstrap sample, calculate AUCs
     # And use joblib to go parallelize
