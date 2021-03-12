@@ -344,73 +344,49 @@ def check_bootstrap_sample_is_valid(X_bs, rois, min_cond_size=4):
     bs_sample_is_valid : bool
         Whether the bootstrap sample passed as input is valid
         for inference.'''
-    if (len(rois) == 2):
-        lesioned_0 = X_bs[rois[0]] == 1
-        lesioned_1 = X_bs[rois[1]] == 1 
-        not_lesioned_0 = X_bs[rois[0]] == 0
-        not_lesioned_1 = X_bs[rois[1]] == 0
-
-        num_both_rois = len(X_bs[lesioned_0 & lesioned_1])
-        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1])
-        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1])
-        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1])
-
-        useless_regions = (X_bs == 0).all()
-
-        if (num_both_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and               num_one_roi_1 >= min_cond_size and num_no_roi >= min_cond_size and               len(X_bs.columns[useless_regions]) == 0):
-
-            return True
-        else:
-            return False
     
-    elif (len(rois) == 3):
-        lesioned_0 = X_bs[rois[0]] == 1
-        lesioned_1 = X_bs[rois[1]] == 1 
-        lesioned_2 = X_bs[rois[2]] == 1 
-        not_lesioned_0 = X_bs[rois[0]] == 0
-        not_lesioned_1 = X_bs[rois[1]] == 0
-        not_lesioned_2 = X_bs[rois[2]] == 0
-        
-        num_all_rois = len(X_bs[lesioned_0 & lesioned_1 & lesioned_2])
-        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1 & not_lesioned_2])
-        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1 & not_lesioned_2])
-        num_one_roi_2 = len(X_bs[not_lesioned_0 & not_lesioned_1 & lesioned_2])
-        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2])
-        
-        useless_regions = (X_bs == 0).all()
-        
-        if (num_all_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and num_one_roi_1 >= min_cond_size and num_one_roi_2 >= min_cond_size and num_no_roi >= min_cond_size and len(X_bs.columns[useless_regions]) == 0):
-            return True
-        else:
-            return False
+    var1 = np.array([])
+    for i in range(len(rois)):
+        var1 = np.append(var1, X_bs[rois[i]] == 1).reshape(-1, len(X_bs))
+
+    num_all_rois = 0
+    for i in range(len(var1[0])):
+        supp = 1
+        for j in range(len(rois)):
+            supp = min(supp, int(var1[j][i]))
+        num_all_rois += supp
     
-    elif (len(rois) == 4):
-        lesioned_0 = X_bs[rois[0]] == 1
-        lesioned_1 = X_bs[rois[1]] == 1 
-        lesioned_2 = X_bs[rois[2]] == 1 
-        lesioned_3 = X_bs[rois[3]] == 1 
-        not_lesioned_0 = X_bs[rois[0]] == 0
-        not_lesioned_1 = X_bs[rois[1]] == 0
-        not_lesioned_2 = X_bs[rois[2]] == 0
-        not_lesioned_3 = X_bs[rois[3]] == 0
-        
-        num_all_rois = len(X_bs[lesioned_0 & lesioned_1 & lesioned_2 & lesioned_3])
-        num_one_roi_0 = len(X_bs[lesioned_0 & not_lesioned_1 & not_lesioned_2 & not_lesioned_3])
-        num_one_roi_1 = len(X_bs[not_lesioned_0 & lesioned_1 & not_lesioned_2 & not_lesioned_3])
-        num_one_roi_2 = len(X_bs[not_lesioned_0 & not_lesioned_1 & lesioned_2 & not_lesioned_3])
-        num_one_roi_3 = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2 & lesioned_3])
-        num_no_roi = len(X_bs[not_lesioned_0 & not_lesioned_1 & not_lesioned_2 & not_lesioned_3])
-        
-        useless_regions = (X_bs == 0).all()
-        
-        if (num_all_rois >= min_cond_size and num_one_roi_0 >= min_cond_size and num_one_roi_1 >= min_cond_size and num_one_roi_2 >= min_cond_size and num_one_roi_3 >= min_cond_size and num_no_roi >= min_cond_size and len(X_bs.columns[useless_regions]) == 0):
-            return True
-        else:
-            return False
+    num_no_rois = 0
+    for i in range(len(var1[0])):
+        supp = 1
+        for j in range(len(rois)):
+            supp = min(supp, 1-int(var1[j][i]))
+        num_no_rois += supp
     
-    else:
-        print("uncheked for 5 or more ROIs")
+    num_one_rois = np.array([])
+    for k in range(len(rois)):
+        num_one_roi_k = 0
+        for i in range(len(var1[0])):
+            supp = 1
+            for j in range(len(rois)):
+                if j == k:
+                    supp = min(supp, int(var1[j][i]))
+                else:
+                    supp = min(supp, 1-int(var1[j][i]))
+            num_one_roi_k += supp
+        num_one_rois = np.append(num_one_rois, num_one_roi_k)
+    
+    useless_regions = (X_bs == 0).all()
+    
+    if (num_all_rois >= min_cond_size 
+        and np.amin(num_one_rois) >= min_cond_size
+        and num_no_rois >= min_cond_size and 
+        len(X_bs.columns[useless_regions]) == 0):
+        
         return True
+    else:
+        return False
+    
 
 
     
